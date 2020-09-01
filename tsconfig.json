@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
@@ -15,9 +12,13 @@
       "*": [
         "node_modules/*"
       ]
-    }
+    },
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
