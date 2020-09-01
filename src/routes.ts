@@ -1,11 +1,11 @@
 
 import { Router } from 'express';
 
-import * as AddressController from './controllers/address';
+import * as SegwitController from './controllers/segwit';
 
 const router = Router();
 
-// Book routes
-router.post('/address/segwit', AddressController.newSegwitAddress);
+// address generation routes
+router.post('/segwit', SegwitController.create);
 
 export default router;
