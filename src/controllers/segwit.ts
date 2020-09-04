@@ -12,12 +12,14 @@ export const create: RequestHandler = async (req, res, next) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(errors);
+    return next(errors.array());
   }
 
   try {
     const result = await AddressService.segwitFromSeedPath(seed, path)
-    res.send(result);
+    res.send({
+      address: result
+    });
   } catch (error) {
     return next(new ApplicationError(error.message));
   }
