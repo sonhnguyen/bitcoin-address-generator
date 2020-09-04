@@ -1,12 +1,17 @@
 
+import errorHandler from 'errorhandler';
 import dotenv from 'dotenv';
+import app from "./app";
 
 const result = dotenv.config();
 if (result.error) {
     dotenv.config({ path: '.env.default' });
 }
 
-import app from "./app";
+
+if (process.env.NODE_ENV === "development") {
+    app.use(errorHandler());
+}
 
 /**
  * Start Express server.

@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import { check, validationResult } from "express-validator";
-import requestMiddleware from '../middleware/request-middleware';
 
+import ApplicationError from '../errors/application-error';
 import * as AddressService from '../services/address-service';
 
-const create: RequestHandler = async (req, res, next) => {
+export const create: RequestHandler = async (req, res, next) => {
   const { seed, path } = req.body;
   await check("seed", "Seed cannot be blank").not().isEmpty().run(req);
   await check("path", "Path cannot be blank").not().isEmpty().run(req);
@@ -19,11 +19,6 @@ const create: RequestHandler = async (req, res, next) => {
     const result = await AddressService.segwitFromSeedPath(seed, path)
     res.send(result);
   } catch (error) {
-    return next(errors);
+    return next(new ApplicationError(error.message));
   }
-};
-
-export default requestMiddleware(create);
-export {
-  create,
 };
