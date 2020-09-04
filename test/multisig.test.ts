@@ -8,18 +8,44 @@ describe("GET /multisig", () => {
   });
 });
 
-
 describe("POST /multisig", () => {
-  it("Should return errors for invalid requests", done => {
-    const pubkeys = [
+  const pubkeys = [
+    "026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+    "02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+    "03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9"
+  ];
+
+  it("Should return errors for BadRequests", done => {
+    const data = {
+      n: -1,
+      m: -2,
+      pubkeys
+    }
+
+    request(app)
+      .post("/multisig")
+      .type("json")
+      .send(data)
+      .expect("Content-Type", "application/json")
+      .expect(400)
+      .end((err, res) => {
+        expect(res.type).to.eq('application/json');
+        expect(res.error).not.to.be.undefined;
+        expect(res.body.error.message).to.be.eq('n must be integer and greater than 0, m must be integer and greater than 0, m must be integer and equal or greater than n, number of pubkeys should equal m');
+        done();
+      });
+  });
+
+  it("Should return errors for ApplicationError, bad pubkey", done => {
+    const badPubkeys = [
       "026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
       "02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
-      "03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9"
+      "123123123123123123123123123123123123123123123123123123123123aaaaaa"
     ];
     const data = {
-      n: 4,
+      n: 2,
       m: 3,
-      pubkeys
+      pubkeys: badPubkeys
     }
 
     request(app)
@@ -31,17 +57,12 @@ describe("POST /multisig", () => {
       .end((err, res) => {
         expect(res.type).to.eq('application/json');
         expect(res.error).not.to.be.undefined;
-        expect(res.body.error[0].msg).to.be.eq('m must be integer and equal or greater than n');
+        expect(res.body.error.message).to.be.eq('Expected property "pubkeys.2" of type isPoint, got Buffer');
         done();
       });
   });
 
   it("Should generate correct multisig address", done => {
-    const pubkeys = [
-      "026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
-      "02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
-      "03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9"
-    ];
     const data = {
       n: 2,
       m: 3,
