@@ -17,8 +17,7 @@ export const create: RequestHandler = async (req, res, next) => {
       return false;
     }
   })
-  .withMessage("Number of pubkeys should equal m.").run(req);
-
+    .withMessage("Number of pubkeys should equal m.").run(req);
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -27,7 +26,7 @@ export const create: RequestHandler = async (req, res, next) => {
 
   try {
     const result = await AddressService.multiSigAddress(n, pubkeys)
-    res.send({
+    res.json({
       address: result
     });
   } catch (error) {

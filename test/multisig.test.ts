@@ -4,7 +4,7 @@ import { expect } from "chai";
 
 describe("GET /multisig", () => {
   it("should return 404", (done) => {
-      request(app).get("/multisig").expect(404, done);
+    request(app).get("/multisig").expect(404, done);
   });
 });
 
@@ -28,13 +28,10 @@ describe("POST /multisig", () => {
       .send(data)
       .expect("Content-Type", "application/json")
       .expect(500)
-      .expect(response => {console.log(response.body)})
       .end((err, res) => {
         expect(res.type).to.eq('application/json');
         expect(res.error).not.to.be.undefined;
-        const body = JSON.parse(res.text);
-        console.log(body)
-        expect(body.error[0].msg).to.be.eq('m must be integer and greater or equal than n');
+        expect(res.body.error[0].msg).to.be.eq('m must be integer and equal or greater than n');
         done();
       });
   });
@@ -53,14 +50,13 @@ describe("POST /multisig", () => {
 
     request(app)
       .post("/multisig")
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .type("json")
       .send(data)
-      .expect("Content-Type", "text/html; charset=utf-8")
+      .expect("Content-Type", "application/json")
       .expect(200)
       .end((err, res) => {
-        expect(res.type).to.eq('text/html');
-        expect(res.text).to.eq('36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7');
+        expect(res.type).to.eq('application/json');
+        expect(res.body.address).to.eq('36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7');
         done();
       });
   });
