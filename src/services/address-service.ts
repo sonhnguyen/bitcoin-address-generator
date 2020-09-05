@@ -9,9 +9,9 @@ export const segwitFromSeedPath = async (seed: string, path: string) => {
     return address;
 }
 
-// generate n-of-m multisig address where m is length of pubkeys
+// generate n-of-m multisig address where m is length of pubkeys. pubkeys are sorted lexicographically, as that is usually mutually agreed.
 export const multiSigAddress = async (n: number, pubkeys: string[]) => {
-    const bufferedPubkeys = pubkeys.map(hex => Buffer.from(hex, 'hex'));
+    const bufferedPubkeys = pubkeys.map(hex => Buffer.from(hex, 'hex')).sort();
     const { address } = bitcoin.payments.p2sh({
         redeem: bitcoin.payments.p2ms({ m: n, pubkeys: bufferedPubkeys }),
     });
