@@ -1,14 +1,14 @@
 REST API server for bitcoin address generation.
 
-** Installation **
+**Installation**
 
 ```
 npm install
 npm run build
-npm serve
+npm run serve
 ```
 
-** Run test **
+**Run test**
 ```
 npm install
 npm run test
@@ -40,6 +40,9 @@ API Endpoints:
     "path": "m/0/0/1"
 }
 ```
+- `seed` and `path` are required.
+- `path` should be a valid HD wallet path (e.g: `m/0/0/1`).
+- Seed should be in hex string and contains at least 128 bits (should be at least 32 characters length long).
 
 * **Success Response:**
 

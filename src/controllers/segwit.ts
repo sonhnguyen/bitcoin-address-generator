@@ -1,10 +1,10 @@
-import { RequestHandler } from 'express';
+import { RequestHandler } from "express";
 import { check, validationResult } from "express-validator";
 
-import BadRequest from '../errors/bad-request';
-import ApplicationError from '../errors/application-error';
+import BadRequest from "../errors/bad-request";
+import ApplicationError from "../errors/application-error";
 
-import * as AddressService from '../services/address-service';
+import * as AddressService from "../services/address-service";
 
 export const create: RequestHandler = async (req, res, next) => {
   const { seed, path } = req.body;
@@ -18,7 +18,7 @@ export const create: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    const result = AddressService.segwitFromSeedPath(seed, path)
+    const result = AddressService.segwitFromSeedPath(seed, path);
     res.json({
       address: result
     });

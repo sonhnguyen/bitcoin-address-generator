@@ -20,7 +20,7 @@ describe("POST /multisig", () => {
       n: -1,
       m: -2,
       pubkeys
-    }
+    };
 
     request(app)
       .post("/multisig")
@@ -29,9 +29,9 @@ describe("POST /multisig", () => {
       .expect("Content-Type", "application/json")
       .expect(400)
       .end((err, res) => {
-        expect(res.type).to.eq('application/json');
+        expect(res.type).to.eq("application/json");
         expect(res.error).not.to.be.undefined;
-        expect(res.body.error.message).to.be.eq('n must be integer and greater than 0, m must be integer and greater than 0, m must be integer and equal or greater than n, number of pubkeys should equal m');
+        expect(res.body.error.message).to.be.eq("n must be integer and greater than 0, m must be integer and greater than 0, m must be integer and equal or greater than n, number of pubkeys should equal m");
         done();
       });
   });
@@ -46,7 +46,7 @@ describe("POST /multisig", () => {
       n: 2,
       m: 3,
       pubkeys: badPubkeys
-    }
+    };
 
     request(app)
       .post("/multisig")
@@ -55,9 +55,9 @@ describe("POST /multisig", () => {
       .expect("Content-Type", "application/json")
       .expect(500)
       .end((err, res) => {
-        expect(res.type).to.eq('application/json');
+        expect(res.type).to.eq("application/json");
         expect(res.error).not.to.be.undefined;
-        expect(res.body.error.message).to.be.eq('Expected property "pubkeys.2" of type isPoint, got Buffer');
+        expect(res.body.error.message).to.be.eq("Expected property \"pubkeys.2\" of type isPoint, got Buffer");
         done();
       });
   });
@@ -67,7 +67,7 @@ describe("POST /multisig", () => {
       n: 2,
       m: 3,
       pubkeys
-    }
+    };
 
     request(app)
       .post("/multisig")
@@ -76,8 +76,8 @@ describe("POST /multisig", () => {
       .expect("Content-Type", "application/json")
       .expect(200)
       .end((err, res) => {
-        expect(res.type).to.eq('application/json');
-        expect(res.body.address).to.eq('36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7');
+        expect(res.type).to.eq("application/json");
+        expect(res.body.address).to.eq("36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7");
         done();
       });
   });
@@ -88,7 +88,7 @@ describe("POST /multisig", () => {
       n: 2,
       m: 3,
       pubkeys: reorderedPubkeys
-    }
+    };
 
     request(app)
       .post("/multisig")
@@ -97,8 +97,8 @@ describe("POST /multisig", () => {
       .expect("Content-Type", "application/json")
       .expect(200)
       .end((err, res) => {
-        expect(res.type).to.eq('application/json');
-        expect(res.body.address).to.eq('36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7');
+        expect(res.type).to.eq("application/json");
+        expect(res.body.address).to.eq("36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7");
         done();
       });
   });
