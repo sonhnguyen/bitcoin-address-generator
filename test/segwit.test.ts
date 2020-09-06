@@ -1,6 +1,10 @@
 import request from "supertest";
-import app from "../src/app";
 import { expect } from "chai";
+import * as HDNode from 'bip32';
+import * as crypto from 'crypto';
+
+import app from "../src/app";
+import * as AddressService from "../src/services/address-service";
 
 describe("GET /segwit", () => {
   it("should return 404", (done) => {
@@ -64,6 +68,35 @@ describe("POST /segwit", () => {
       .end((err, res) => {
         expect(res.type).to.eq('application/json');
         expect(res.body.address).to.eq('bc1qtyyw0wztwtr47utajd5jjqfse6exgzd6w6v2c2');
+        done();
+      });
+  });
+
+  it("should able to verify generated segwit address by signing a message", done => {
+    const seed = crypto.randomBytes(16); // 128 bits is enough
+    const path = 'm/0/0/1';
+    const hdMaster = HDNode.fromSeed(seed); // seed from above
+    const kp = hdMaster.derivePath(path);
+    const privateKey = kp.privateKey;
+
+    const data = {
+      seed: seed.toString('hex'),
+      path,
+    }
+
+    request(app)
+      .post("/segwit")
+      .type("json")
+      .send(data)
+      .expect("Content-Type", "application/json")
+      .expect(200)
+      .end((err, res) => {
+        expect(res.type).to.eq('application/json');
+        const address = res.body.address;
+        const message = 'we need to check if the address is correct';
+        const signature = AddressService.signMessageSegwit(message, privateKey.toString('hex'));
+        const isCorrectSignature = AddressService.verifyMessageSegwit(message, address, signature);
+        expect(isCorrectSignature).to.be.true;
         done();
       });
   });

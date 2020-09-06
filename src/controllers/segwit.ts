@@ -18,7 +18,7 @@ export const create: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    const result = await AddressService.segwitFromSeedPath(seed, path)
+    const result = AddressService.segwitFromSeedPath(seed, path)
     res.json({
       address: result
     });

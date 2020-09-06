@@ -81,4 +81,25 @@ describe("POST /multisig", () => {
         done();
       });
   });
+
+  it("Should generate correct multisig address when order of pubkeys is changed", done => {
+    const reorderedPubkeys = [pubkeys[0], pubkeys[2], pubkeys[1]];
+    const data = {
+      n: 2,
+      m: 3,
+      pubkeys: reorderedPubkeys
+    }
+
+    request(app)
+      .post("/multisig")
+      .type("json")
+      .send(data)
+      .expect("Content-Type", "application/json")
+      .expect(200)
+      .end((err, res) => {
+        expect(res.type).to.eq('application/json');
+        expect(res.body.address).to.eq('36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7');
+        done();
+      });
+  });
 });

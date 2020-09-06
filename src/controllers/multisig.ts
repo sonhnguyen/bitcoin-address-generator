@@ -27,7 +27,7 @@ export const create: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    const result = await AddressService.multiSigAddress(n, pubkeys)
+    const result = AddressService.multiSigAddress(n, pubkeys)
     res.json({
       address: result
     });
