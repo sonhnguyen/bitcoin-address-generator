@@ -39,13 +39,13 @@ You can try test out the APIs at:
 
   ```json
   {
-      "seed": "111111111111111111111111111111111",
+      "mnemonicSeed": "cave spread evidence cabin various phrase capable obey company never exit code",
       "path": "m/0/0/1"
   }
   ```
-- `seed` and `path` are required.
+- `mnemonicSeed` and `path` are required.
 - `path` should be a valid HD wallet path (e.g: `m/0/0/1`).
-- Seed should be in hex string and contains at least 128 bits (should be at least 32 characters length long).
+- `mnemonicSeed` should be a valid BIP39 mnemonic seed.
 
 * **Success Response:**
 
@@ -54,26 +54,27 @@ You can try test out the APIs at:
 
     ```json
     {
-        "seed": "ddddddddddddddddddddddddddddddddddddddddddddd",
-        "path": "m/0/0/1"
+	    "mnemonicSeed": "mule board code chronic polar egg lonely pretty good divert shield process",
+	    "path": "0/0/1"
     }
     ```
 
     **Content:**
     ```json
     {
-        "address": "bc1qauq64rft3pp0zrep804flwt46tclf6n5grrw5a"
+        "nativeSegwitAddress": "bc1q97dx4al6mzzfn6smgsyjqzznq2hjdpydtq7q00",
+        "nestedSegwitAddress": "3Gxz8HgJwqr2nmkpSw2GozVypE8VrpWCDX"
     }
     ```
 
 * **Error Response:**
 
   * **Code:** 400 BAD REQUEST <br />
-    **Reason:** Seed is not long enough for 128 bits.
+    **Reason:** Mnemonic Seed is not a valid BIP39 seed.
 
     ```json
     {
-        "seed": "123",
+        "mnemonicSeed": "abandon",
         "path": "m/0/0/1"
     }
     ```
@@ -82,10 +83,10 @@ You can try test out the APIs at:
     ```json
     {
         "error": {
-            "message": "seed should have minimum 32 characters (128 bits)",
+            "message": "should be a valid bip39 mnemonic seed",
             "status": 400
         },
-        "message": "seed should have minimum 32 characters (128 bits)"
+        "message": "should be a valid bip39 mnemonic seed"
     }
     ```
 
@@ -96,7 +97,7 @@ You can try test out the APIs at:
 
     ```json
     {
-        "seed": "500000000000000000000000000000000000000000000  ",
+	    "mnemonicSeed": "mule board code chronic polar egg lonely pretty good divert shield process",
         "path": "m/asd0/0/1"
     }
     ```
@@ -116,14 +117,14 @@ You can try test out the APIs at:
 * **Sample Call:**
 
     ```javascript
-    var settings = {
+    const settings = {
     "url": "http://128.199.230.253/segwit",
     "method": "POST",
     "timeout": 0,
     "headers": {
         "Content-Type": "application/json"
     },
-    "data": JSON.stringify({"seed":"500000000000000000000000000000000000000000000  ","path":"m/0/0/1"}),
+    "data": JSON.stringify({"mnemonicSeed":"cave spread evidence cabin various phrase capable obey company never exit code  ","path":"m/0/0/1"}),
     };
 
     $.ajax(settings).done(function (response) {
@@ -132,7 +133,7 @@ You can try test out the APIs at:
     ```
 
     ```curl
-    curl --location --request POST 'http://128.199.230.253/segwit'  --header 'Content-Type: application/json' --data-raw '{"seed": "500000000000000000000000000000000000000000000","path": "m/0/0/1" }'
+    curl --location --request POST 'http://128.199.230.253/segwit'  --header 'Content-Type: application/json' --data-raw '{"mnemonicSeed": "cave spread evidence cabin various phrase capable obey company never exit code","path": "m/0/0/1" }'
     ```
 
 
@@ -252,7 +253,7 @@ You can try test out the APIs at:
 * **Sample Call:**
 
     ```javascript
-    var settings = {
+    const settings = {
     "url": "http://128.199.230.253/multisig",
     "method": "POST",
     "timeout": 0,
