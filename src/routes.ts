@@ -1,8 +1,7 @@
-
 import { Router } from "express";
 
 import * as SegwitController from "./controllers/segwit";
-import * as MultiSigController from "./controllers/multiSig";
+import * as MultiSigController from "./controllers/multisig";
 
 const router = Router();
 
