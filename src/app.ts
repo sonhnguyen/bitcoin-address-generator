@@ -1,9 +1,15 @@
+import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import compression from "compression";
 import express, { Request, Response, NextFunction } from "express";
 import ApplicationError from "./errors/application-error";
 import logger from "./logger";
 import routes from "./routes";
+
+const result = dotenv.config();
+if (result.error) {
+    dotenv.config({ path: ".env.default" });
+}
 
 const app = express();
 
@@ -12,6 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("port", process.env.PORT || 3000);
+app.set("env", process.env.NODE_ENV || "development");
 
 app.use(routes);
 

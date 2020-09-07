@@ -16,18 +16,25 @@ npm run test
 
 **API Endpoints:**
 
+You can try test out the APIs at:
+
+`http://128.199.230.253/segwit`
+
+`http://128.199.230.253/multisig`
+
+
 **Generate Native Segwit Address**
 ----
   Returns json data for new native Segwit Address from a seed and a path.
 
 * **URL**
 
-  /segwit
+  `/segwit`
 
 * **Method:**
 
   `POST`
-  
+
 * **Data Params**
 
   ```json
@@ -52,13 +59,13 @@ npm run test
     }
     ```
 
-    **Content:** 
+    **Content:**
     ```json
     {
         "address": "bc1qauq64rft3pp0zrep804flwt46tclf6n5grrw5a"
     }
     ```
- 
+
 * **Error Response:**
 
   * **Code:** 400 BAD REQUEST <br />
@@ -94,7 +101,7 @@ npm run test
     }
     ```
 
-    **Content:** 
+    **Content:**
 
     ```json
     {
@@ -110,7 +117,7 @@ npm run test
 
     ```javascript
     var settings = {
-    "url": "http://localhost:3000/segwit",
+    "url": "http://128.199.230.253/segwit",
     "method": "POST",
     "timeout": 0,
     "headers": {
@@ -125,7 +132,7 @@ npm run test
     ```
 
     ```curl
-    curl --location --request POST 'http://localhost:3000/segwit'  --header 'Content-Type: application/json' --data-raw '{"seed": "500000000000000000000000000000000000000000000","path": "m/0/0/1" }'
+    curl --location --request POST 'http://128.199.230.253/segwit'  --header 'Content-Type: application/json' --data-raw '{"seed": "500000000000000000000000000000000000000000000","path": "m/0/0/1" }'
     ```
 
 
@@ -135,12 +142,12 @@ npm run test
 
 * **URL**
 
-  /multisig
+  `/multisig`
 
 * **Method:**
 
   `POST`
- 
+
 * **Data Params**
 
   ```
@@ -185,7 +192,7 @@ npm run test
         "address": "36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7"
     }
     ```
- 
+
 * **Error Response:**
 
   * **Code:** 400 BAD REQUEST <br />
@@ -230,7 +237,7 @@ npm run test
     }
     ```
 
-   * **Content:** 
+   * **Content:**
 
         ```json
         {
@@ -246,7 +253,7 @@ npm run test
 
     ```javascript
     var settings = {
-    "url": "http://localhost:3000/multisig",
+    "url": "http://128.199.230.253/multisig",
     "method": "POST",
     "timeout": 0,
     "headers": {
@@ -261,7 +268,7 @@ npm run test
     ```
 
     ```curl
-    curl --location --request POST 'http://localhost:3000/multisig' \
+    curl --location --request POST 'http://128.199.230.253/multisig' \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "n": 2,
