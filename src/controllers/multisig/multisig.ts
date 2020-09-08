@@ -1,10 +1,10 @@
 import { RequestHandler } from "express";
 import { check, validationResult } from "express-validator";
 
-import BadRequest from "../errors/bad-request";
-import ApplicationError from "../errors/application-error";
+import BadRequest from "../../errors/bad-request";
+import ApplicationError from "../../errors/application-error";
 
-import * as AddressService from "../services/address-service";
+import * as AddressService from "../../services/address-service";
 
 export const create: RequestHandler = async (req, res, next) => {
   const { n, m, pubkeys } = req.body;

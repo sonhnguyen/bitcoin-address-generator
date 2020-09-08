@@ -28,7 +28,8 @@ export const validateMnemonicSeed = (mnemonicSeed: string): boolean => {
     return bip39.validateMnemonic(mnemonicSeed);
 };
 
-// generate n-of-m multisig address where m is length of pubkeys. pubkeys are sorted lexicographically, as that is usually mutually agreed.
+// generate n-of-m multisig address.
+// pubkeys are sorted lexicographically, as that is usually mutually agreed.
 export const multiSigAddress = (n: number, pubkeys: string[]): string=> {
     const bufferedPubkeys = pubkeys.map(hex => Buffer.from(hex, "hex")).sort();
     const { address } = bitcoin.payments.p2sh({
